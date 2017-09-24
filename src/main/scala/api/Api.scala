@@ -24,6 +24,11 @@ case class Input(
 	moduleTwoInput: ModuleTwoInput
 )
 
+object Input {
+	def apply(text: String, list: List[ModuleTwoRule]): Input =
+		new Input(ModuleOneInput(text), ModuleTwoInput(list))
+}
+
 case class Output(
 	text: String
 )
