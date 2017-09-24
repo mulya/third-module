@@ -1,6 +1,6 @@
 import api._
 import filters.{EntityFilter, LinkFilter, TwitterUsernameFilter}
-import module.{IFilter, FilterManager}
+import module.{FormatManager, IFilter}
 import org.specs2.Specification
 
 class ThirdModuleSpec extends Specification { def is = s2"""
@@ -18,27 +18,27 @@ class ThirdModuleSpec extends Specification { def is = s2"""
     TwitterUsernameFilter
   )
 
-  val filterManager = new FilterManager(filterList)
+  val formatManager = new FormatManager(filterList)
 
   def testEntity = {
 
-    val input = ModuleTwoRule(0, 5, "Entity")
+    val input = List(ModuleTwoRule(0, 5, "Entity"))
 
-    filterManager.execute(input, "Obama") must_== """<strong>Obama</strong>"""
+    formatManager.execute(input, "Obama") must_== """<strong>Obama</strong>"""
   }
 
   def testTwitterUsername = {
 
-    val input = ModuleTwoRule(0, 12, "TwitterUsername")
+    val input = List(ModuleTwoRule(0, 12, "TwitterUsername"))
 
-    filterManager.execute(input, "@elversatile") must_== """@ <a href="http://twitter.com/elversatile">elversatile</a>"""
+    formatManager.execute(input, "@elversatile") must_== """@ <a href="http://twitter.com/elversatile">elversatile</a>"""
   }
 
   def testLink = {
 
-    val input = ModuleTwoRule(0, 17, "Link")
+    val input = List(ModuleTwoRule(0, 17, "Link"))
 
-    filterManager.execute(input, "http://bit.ly/xyz") must_== """<a href="http://bit.ly/xyz">http://bit.ly/xyz </a>"""
+    formatManager.execute(input, "http://bit.ly/xyz") must_== """<a href="http://bit.ly/xyz">http://bit.ly/xyz </a>"""
   }
 
   def testDefaultExample = {
@@ -50,12 +50,9 @@ class ThirdModuleSpec extends Specification { def is = s2"""
       ModuleTwoRule(37, 54, "Link")
     )
 
-    val result = inputList.foldLeft("Obama visited Facebook headquarters: http://bit.ly/xyz @elversatile") { (output, rule) =>
-      filterManager.execute(rule, output)
-    }
+    val result = formatManager.execute(inputList, "Obama visited Facebook headquarters: http://bit.ly/xyz @elversatile")
 
     result must_==
-      """<strong>Obama</strong> visited <strong>Facebook</strong> headquarters: <a href="http://bit.ly/xyz">
-        |http://bit.ly/xyz </a> @ <a href="http://twitter.com/elversatile">elversatile</a>""".stripMargin
+      """<strong>Obama</strong> visited <strong>Facebook</strong> headquarters: <a href="http://bit.ly/xyz">http://bit.ly/xyz </a> @ <a href="http://twitter.com/elversatile">elversatile</a>"""
   }
 }
