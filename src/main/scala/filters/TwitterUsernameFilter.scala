@@ -1,13 +1,14 @@
 package filters
 
-import api.{Input, Output}
-import module.Filter
+import module.AbstractPairTagFilter
 
 /**
 	*
 	*/
-object TwitterUsernameFilter extends Filter {
-	override def execute(input: Input, output: Output): Output = {
-		output //TODO
-	}
+object TwitterUsernameFilter extends AbstractPairTagFilter
+{
+	override val formattingType = "TwitterUsername"
+
+	override val startTag = "<a>"
+	override val endTag = "</a>"
 }

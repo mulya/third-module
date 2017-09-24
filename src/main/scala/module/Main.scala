@@ -7,7 +7,7 @@ import filters.{EntityFilter, LinkFilter, TwitterUsernameFilter}
 	*
 	*/
 object Main extends App {
-	val filterList: List[Filter] = List(
+	val filterList: List[IFilter] = List(
 		EntityFilter,
 		LinkFilter,
 		TwitterUsernameFilter

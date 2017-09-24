@@ -2,7 +2,7 @@ package module
 
 import api.ModuleTwoRule
 
-trait Filter {
+trait IFilter {
 	def formattingType: String
 
 	def execute(input: ModuleTwoRule, output: String, filterChain: FilterChain): String = {

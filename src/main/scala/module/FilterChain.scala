@@ -2,7 +2,7 @@ package module
 
 import api.ModuleTwoRule
 
-class FilterChain(filterList: List[Filter]) {
+class FilterChain(filterList: List[IFilter]) {
 
 	val iterator = filterList.iterator
 
