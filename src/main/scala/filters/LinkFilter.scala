@@ -8,6 +8,6 @@ import module.AbstractPairTagFilter
 object LinkFilter extends AbstractPairTagFilter {
 	override val formattingType = "Link"
 
-	override val startTag = "<a>"
-	override val endTag = "</a>"
+	override def startTag(content: String) = s"""<a href="$content">"""
+	override def endTag(content: String) = " </a>"
 }
