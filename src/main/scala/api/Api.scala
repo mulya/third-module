@@ -7,17 +7,12 @@ case class ModuleOneInput(
 case class ModuleTwoRule (
 	positionFrom: Int,
 	positionTo: Int,
-	formatting: Formatting
+	formatting: String
 )
 
 case class ModuleTwoInput(
 	list: List[ModuleTwoRule]
 )
-
-trait Formatting
-case object Entity extends Formatting
-case object TwitterUsername extends Formatting
-case object Link extends Formatting
 
 case class Input(
 	moduleOneInput: ModuleOneInput,

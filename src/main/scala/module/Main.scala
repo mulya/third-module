@@ -15,18 +15,21 @@ object Main extends App {
 
 	val filterManager = new FilterManager(filterList)
 
-	val input = Input(
-			"Obama visited Facebook headquarters: http://bit.ly/xyz @elversatile",
-			List(
-				ModuleTwoRule(14, 22, Entity),
-				ModuleTwoRule(0, 5, Entity),
-				ModuleTwoRule(55, 67, TwitterUsername),
-				ModuleTwoRule(37, 54, Link)
-			)
+	val moduleOneInput = ModuleOneInput("Obama visited Facebook headquarters: http://bit.ly/xyz @elversatile")
+	val moduleTwoInput = ModuleTwoInput(List(
+			ModuleTwoRule(14, 22, "Entity"),
+			ModuleTwoRule(0, 5, "Entity"),
+			ModuleTwoRule(55, 67, "TwitterUsername"),
+			ModuleTwoRule(37, 54, "Link")
+		)
 	)
 
-	val result = filterManager.execute(input, Output(input.moduleOneInput.text))
+	val result = moduleTwoInput.list.foldRight(moduleOneInput.text){ (rule, modifiedOutput) =>
+		filterManager.execute(rule, modifiedOutput)
+	}
 
-	System.out.println("input: " + input)
-	System.out.println("output: " + result)
+
+	System.out.println("module one input: " + moduleOneInput)
+	System.out.println("module two input: " + moduleTwoInput)
+	System.out.println("module three output: " + result)
 }

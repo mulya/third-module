@@ -1,11 +1,16 @@
 package module
 
-import api.{Input, Output}
+import api.ModuleTwoRule
 
 class FilterChain(filterList: List[Filter]) {
-	def execute(input: Input, output: Output): Output = {
-		filterList.foldLeft(output) { (modifiedOutput, filter) =>
-			filter.execute(input, modifiedOutput)
+
+	val iterator = filterList.iterator
+
+	def execute(input: ModuleTwoRule, output: String): String = {
+		if(iterator.hasNext) {
+			iterator.next().execute(input, output, this)
+		} else {
+			output
 		}
 	}
 }

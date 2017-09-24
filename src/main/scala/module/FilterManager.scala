@@ -1,15 +1,13 @@
 package module
 
-import api.{Input, Output}
+import api.ModuleTwoRule
 
 /**
 	*
 	*/
 class FilterManager(filterList: List[Filter]) {
 
-	val filterChain = new FilterChain(filterList)
-
-	def execute(input: Input, output: Output): Output = {
-		filterChain.execute(input, output)
+	def execute(input: ModuleTwoRule, output: String): String = {
+		new FilterChain(filterList).execute(input, output)
 	}
 }

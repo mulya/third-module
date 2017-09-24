@@ -6,17 +6,75 @@ import org.specs2.Specification
 class ThirdModuleSpec extends Specification { def is = s2"""
 
  Third module should
-   test one                                         $test1
+   format Entity                    $testEntity
+   format TwitterUsername           $testTwitterUsername
+   format Link                      $testLink
+   format default example           $testDefaultExample
                                                                  """
 
-  def test1 = {
-    val filterList: List[Filter] = List(
-      EntityFilter,
-      LinkFilter,
-      TwitterUsernameFilter
+  val filterList: List[Filter] = List(
+    EntityFilter,
+    LinkFilter,
+    TwitterUsernameFilter
+  )
+
+  val filterManager = new FilterManager(filterList)
+
+  def testEntity = {
+
+    val input = Input(
+      ModuleOneInput(
+        "Obama"
+      ),
+      ModuleTwoInput(
+        List(
+          ModuleTwoRule(0, 5, Entity)
+        )
+      )
     )
 
-    val filterManager = new FilterManager(filterList)
+    val output = Output(input.moduleOneInput.text)
+
+    filterManager.execute(input, output).text must_== """<strong>Obama</strong>"""
+  }
+
+  def testTwitterUsername = {
+
+    val input = Input(
+      ModuleOneInput(
+        "@elversatile"
+      ),
+      ModuleTwoInput(
+        List(
+          ModuleTwoRule(0, 12, TwitterUsername)
+        )
+      )
+    )
+
+    val output = Output(input.moduleOneInput.text)
+
+    filterManager.execute(input, output).text must_== """@ <a href="http://twitter.com/elversatile">elversatile</a>"""
+  }
+
+  def testLink = {
+
+    val input = Input(
+      ModuleOneInput(
+        "http://bit.ly/xyz"
+      ),
+      ModuleTwoInput(
+        List(
+          ModuleTwoRule(0, 17, Link)
+        )
+      )
+    )
+
+    val output = Output(input.moduleOneInput.text)
+
+    filterManager.execute(input, output).text must_== """<a href="http://bit.ly/xyz">http://bit.ly/xyz </a>"""
+  }
+
+  def testDefaultExample = {
 
     val input = Input(
       ModuleOneInput(
@@ -35,7 +93,7 @@ class ThirdModuleSpec extends Specification { def is = s2"""
     val output = Output(input.moduleOneInput.text)
 
     filterManager.execute(input, output).text must_==
-      """<strong>Obama</strong> visited <strong>Facebook</strong> headquarters: <a\nhref="http://bit.ly/xyz">
-        |http://bit.ly/xyz </a> @ <a\nhref="http://twitter.com/elversatile">elversatile</a>""".stripMargin
+      """<strong>Obama</strong> visited <strong>Facebook</strong> headquarters: <a href="http://bit.ly/xyz">
+        |http://bit.ly/xyz </a> @ <a href="http://twitter.com/elversatile">elversatile</a>""".stripMargin
   }
 }
