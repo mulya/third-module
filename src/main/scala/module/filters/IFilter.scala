@@ -3,6 +3,9 @@ package module.filters
 import api.Rule
 import module.FilterChain
 
+/**
+	* Parent of all filters
+	*/
 trait IFilter {
 	def formattingType: String
 

@@ -2,6 +2,10 @@ package module.filters
 
 import api.Rule
 
+/**
+	* Partial implementation of filter.
+	* Convenient for pair tag implementation
+	*/
 trait AbstractPairTagFilter extends IFilter {
 	def startTag(content: String): String
 	def endTag(content: String): String
