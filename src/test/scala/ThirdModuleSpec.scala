@@ -1,6 +1,6 @@
 import api._
-import filters.{EntityFilter, LinkFilter, TwitterUsernameFilter}
-import module.{FormatManager, IFilter}
+import module.filters.{EntityFilter, IFilter, LinkFilter, TwitterUsernameFilter}
+import module.FormatManager
 import org.specs2.Specification
 
 class ThirdModuleSpec extends Specification { def is = s2"""
@@ -22,37 +22,37 @@ class ThirdModuleSpec extends Specification { def is = s2"""
 
   def testEntity = {
 
-    val input = List(ModuleTwoRule(0, 5, "Entity"))
+    val input = List(Rule(0, 5, "Entity"))
 
     formatManager.execute(input, "Obama") must_== """<strong>Obama</strong>"""
   }
 
   def testTwitterUsername = {
 
-    val input = List(ModuleTwoRule(0, 12, "TwitterUsername"))
+    val input = List(Rule(0, 12, "TwitterUsername"))
 
-    formatManager.execute(input, "@elversatile") must_== """@ <a href="http://twitter.com/elversatile">elversatile</a>"""
+    formatManager.execute(input, "@elversatile") must_== """@ <a href=”http://twitter.com/elversatile”>elversatile</a>"""
   }
 
   def testLink = {
 
-    val input = List(ModuleTwoRule(0, 17, "Link"))
+    val input = List(Rule(0, 17, "Link"))
 
-    formatManager.execute(input, "http://bit.ly/xyz") must_== """<a href="http://bit.ly/xyz">http://bit.ly/xyz </a>"""
+    formatManager.execute(input, "http://bit.ly/xyz") must_== """<a href=”http://bit.ly/xyz”>http://bit.ly/xyz </a>"""
   }
 
   def testDefaultExample = {
 
     val inputList = List(
-      ModuleTwoRule(14, 22, "Entity"),
-      ModuleTwoRule(0, 5, "Entity"),
-      ModuleTwoRule(55, 67, "TwitterUsername"),
-      ModuleTwoRule(37, 54, "Link")
+      Rule(14, 22, "Entity"),
+      Rule(0, 5, "Entity"),
+      Rule(55, 67, "TwitterUsername"),
+      Rule(37, 54, "Link")
     )
 
     val result = formatManager.execute(inputList, "Obama visited Facebook headquarters: http://bit.ly/xyz @elversatile")
 
     result must_==
-      """<strong>Obama</strong> visited <strong>Facebook</strong> headquarters: <a href="http://bit.ly/xyz">http://bit.ly/xyz </a> @ <a href="http://twitter.com/elversatile">elversatile</a>"""
+      """<strong>Obama</strong> visited <strong>Facebook</strong> headquarters: <a href=”http://bit.ly/xyz”>http://bit.ly/xyz </a> @ <a href=”http://twitter.com/elversatile”>elversatile</a>"""
   }
 }

@@ -1,6 +1,4 @@
-package filters
-
-import module.AbstractPairTagFilter
+package module.filters
 
 /**
 	*

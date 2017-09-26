@@ -1,7 +1,7 @@
 package module
 
 import api._
-import filters.{EntityFilter, LinkFilter, TwitterUsernameFilter}
+import filters.{EntityFilter, IFilter, LinkFilter, TwitterUsernameFilter}
 
 /**
 	*
@@ -19,10 +19,10 @@ object Main extends App {
 
 	val moduleOneInput = "Obama visited Facebook headquarters: http://bit.ly/xyz @elversatile"
 	val moduleTwoInput = List(
-    ModuleTwoRule(14, 22, "Entity"),
-    ModuleTwoRule(0, 5, "Entity"),
-    ModuleTwoRule(55, 67, "TwitterUsername"),
-    ModuleTwoRule(37, 54, "Link")
+    Rule(14, 22, "Entity"),
+    Rule(0, 5, "Entity"),
+    Rule(55, 67, "TwitterUsername"),
+    Rule(37, 54, "Link")
   )
 
 
